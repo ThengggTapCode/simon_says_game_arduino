@@ -1,15 +1,8 @@
 #include <Arduino.h>
 #include "game.h"
 #include "utils.h"
-
-// constexpr int button[4], led[4], note[4];
-// constexpr int buzzer;
-// constexpr int totalLevel;
-
-uint8_t sequence[totalLevel];
-int currentLevel = 0;
-bool firstAttempt = true,
-    gameOver = false;
+#include "lcd.h"
+#include "configVariables.h"
 
 void generateNewLevel() {
   sequence[currentLevel] = random(4);
@@ -18,27 +11,42 @@ void generateNewLevel() {
 void startGame() {
   randomSeed(analogRead(A0));
   gameOver = false;
-  // only flashes when it's the first attempt
+
   if (firstAttempt) {
+    // only init lcd and greets in the first attempt
+    lcdInit();
+    lcdGreet();
+    // only flashes and buzzes when it's the first attempt
     int notes[4] = {262, 330, 392, 523};
     buzzAndFlashLed(notes);
+    delay(1000);
   }
-  delay(1000);
+  lcdClear();
 }
 void endGame() {
-  currentLevel = 0;
-  gameOver = true;
-
+  // lcd prints level "lose" result
+  lcdClear();
+  lcdPrintLevel(currentLevel);
+  lcdPrintLevelResult(false);
   // light up all leds and buzz
   int notes[4] = {415, 349, 294, 247};
   buzzAndFlashLed(notes);
+
+  currentLevel = 0;
+  gameOver = true;
+  // lcd prints game over message
+  lcdClear();
+  lcdPrintGameResult(gameOver);
+  delay(2000);
 }
 void playSequence() {
+  lcdClear();
+  lcdPrintLevel(currentLevel+1);
   generateNewLevel();
   for (int i=0; i<currentLevel; i++) {
     uint8_t currentLed = sequence[i];
     digitalWrite(led[currentLed], HIGH);
-    delay(500);
+    delay(300);
     digitalWrite(led[currentLed], LOW);
     delay(300);
   }
@@ -79,5 +87,6 @@ bool playerInputMatching() {
     if (selectedLed != currentLed)
       return false;
   }
+  lcdPrintLevelResult(true);
   return true;
 }

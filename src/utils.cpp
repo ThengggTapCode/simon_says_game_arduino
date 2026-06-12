@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include "utils.h"
+#include "configVariables.h"
 
 // set all leds into a specific state
 void controlAllLed(uint8_t state) {

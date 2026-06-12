@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include "game.h"
+#include "configVariables.h"
 
 void setup() {
   Serial.begin(9600);
@@ -17,7 +18,6 @@ void loop() {
 
     if (!playerInputMatching()) {
       endGame();
-      delay(1000);
       return;
     }
     delay(1000);
