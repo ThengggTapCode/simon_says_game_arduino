@@ -18,6 +18,6 @@ Visual Studio Code with PlatformIO:
 - Simply click the right-facing arrow (→) icon in your VS Code status bar (usually located at the bottom of your VS Code environment by default).
 
 Arduino IDE:
-- Extract the `arduino_compatible_code.zip` file to a `simon_says_game_arduinoide` folder.
+- Extract the `arduino_compatible_code.zip` file the same folder. The `.ino` file should be in the `simon_says_game_arduinoide` folder.
 - Open the `simon_says_game_arduino.ino` file with Arduino IDE.
 - Upload your code by clicking the right-facing arrow (→) icon on top of your Arduino IDE environment.
